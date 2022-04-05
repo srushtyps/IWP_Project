@@ -2,11 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 body{
     background-color: #FF416C;
-    /*background: rgb(255,255,255);
-    background: radial-gradient(circle, rgba(255,255,255,1) 35%, rgba(46,38,50,1) 100%);*/
-    /*background: rgb(217,97,48);
-    background: radial-gradient(circle, rgba(217,97,48,1) 35%, rgba(46,38,50,1) 59%, rgba(46,38,50,1) 100%);*/
-    /*background-image: linear-gradient(to top, #d96130, #b9454b, #8b3954, #58314c, #2e2632);*/
+    
 }
 a:link {
   color: white;
