@@ -1,13 +1,14 @@
-// const firebaseConfig = {
-// 	apiKey: "AIzaSyDjyl9cLRRLKOIc98tcwZeotQJPto79Ssw",
-// 	authDomain: "quizzo-e5530.firebaseapp.com",
-// 	databaseURL: "https://quizzo-e5530-default-rtdb.asia-southeast1.firebasedatabase.app/",
-// 	projectId: "quizzo-e5530",
-// 	storageBucket: "quizzo-e5530.appspot.com",
-// 	messagingSenderId: "45527319469",
-// 	appId: "1:45527319469:web:88e4fbd64cae415c3ad724"
-// };
 
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBRAQ5m5ixVOFGRpHyOGovApBUYk7tPowk",
+    authDomain: "iwpproject-b4c68.firebaseapp.com",
+    projectId: "iwpproject-b4c68",
+	databaseURL: "https://iwpproject-b4c68-default-rtdb.asia-northeast3.firebasedatabase.app/",
+    storageBucket: "iwpproject-b4c68.appspot.com",
+    messagingSenderId: "646628849069",
+    appId: "1:646628849069:web:807b400f9a6eed7f0fdd24"
+  };
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
