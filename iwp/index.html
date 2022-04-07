@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+`<!DOCTYPE html>
 <html>
 <head>
 	<title>SignUp and Login</title>
@@ -8,38 +8,38 @@
 <body>
 
 <div class="container" id="container">
-<div class="sign-up-container">
+<div class="form-container sign-up-container">
 
-<form action="">
+<form>
 	<h1>Create Account</h1>
 	<!-- <div class="social-container">
 		<a href="#" class="social"><i class="fa fa-facebook"></i></a>
 		<a href="#" class="social"><i class="fa fa-google"></i></a>
 		<a href="#" class="social"><i class="fa fa-linkedin"></i></a>
 	</div> -->
-	<span>or use your email for registration</span>
-	<input type="text" name="name" id="name" placeholder="Name">
-	<input type="email" name="email" id="email" placeholder="Email">
-	<input type="password" name="password" id="password" placeholder="Password">
-	<button type="signup">SignUp</button>
+	<!-- <span>or use your email for registration</span> -->
+	<input type="text" name="name" id="nameSU" placeholder="Name">
+	<input type="email" name="email" id="emailSU" placeholder="Email">
+	<input type="password" name="password" id="passwordSU" placeholder="Password">
+	<button type="submit">SignUp</button>
 </form>
 </div>
-<!-- <div class="form-container sign-in-container">
+<div class="sign-in-container">
 	<form action="#">
 		<h1>Sign In</h1>
-		<div class="social-container">
+		<!-- <div class="social-container">
 		<a href="#" class="social"><i class="fa fa-facebook"></i></a>
 		<a href="#" class="social"><i class="fa fa-google"></i></a>
 		<a href="#" class="social"><i class="fa fa-linkedin"></i></a>
-	</div>
-	<span>or use your account</span>
-	<input type="email" name="email" id="email" placeholder="Email">
-	<input type="password" name="password" id="password" placeholder="Password">
+	</div> -->
+	<!-- <span>or use your account</span> -->
+	<input type="email" name="email" id="emailSI" placeholder="Email">
+	<input type="password" name="password" id="passwordSI" placeholder="Password">
 	<a href="#">Forgot Your Password</a>
 
 	<button type="login">Sign In</button>
 	</form>
-</div> -->
+</div>
 <div class="overlay-container">
 	<div class="overlay">
 		<div class="overlay-panel overlay-left">
@@ -59,6 +59,10 @@
 </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 <script type="text/javascript">
 	const signUpButton = document.getElementById('signUp');
 	const signInButton = document.getElementById('signIn');
@@ -71,9 +75,6 @@
 		container.classList.remove("right-panel-active");
 	});
 </script>
-
-
-
-
+<script src="./script.js"></script>
 </body>
-</html>
+</html>`
