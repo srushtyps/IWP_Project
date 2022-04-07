@@ -12,25 +12,25 @@
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-const form = document.querySelector('.form-container form');
-const inputs = document.querySelectorAll('.form-container input');
+const form = document.querySelector('.sign-up-container form');
+const inputs = document.querySelectorAll('.sign-up-container input');
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('signup', (e) => {
 	e.preventDefault();
-	inputs.forEach((input) => {
-		if (!input.value) {
-			input.parentElement.classList.add('error');
-		} else {
-			input.parentElement.classList.remove('error');
-			if (input.type == 'email') {
-				if (validateEmail(input.value)) {
-					input.parentElement.classList.remove('error');
-				} else {
-					input.parentElement.classList.add('error');
-				}
-			}
-		}
-	});
+	// inputs.forEach((input) => {
+	// 	if (!input.value) {
+	// 		input.parentElement.classList.add('error');
+	// 	} else {
+	// 		input.parentElement.classList.remove('error');
+	// 		if (input.type == 'email') {
+	// 			if (validateEmail(input.value)) {
+	// 				input.parentElement.classList.remove('error');
+	// 			} else {
+	// 				input.parentElement.classList.add('error');
+	// 			}
+	// 		}
+	// 	}
+	// });
 	signUp();
 });
 
@@ -56,13 +56,14 @@ function validateName(name){
 }
 
 function changeWindow(){
-	window.location.href ='../iwp/index.html';
+	window.location.href ='./main.html';
 }
 
-function writeUserData(userId, first_name, last_name, email) {
-	db.collection("Users").doc(userId).set({
-		first_name: first_name,
-		last_name: last_name,
+function writeUserData(name, email) {
+	db.collection("Users").doc(email).set({
+		// first_name: first_name,
+		// last_name: last_name,
+		name : name,
 		email: email
 	}).then(() => {
 		console.log("data written");
@@ -74,25 +75,25 @@ function writeUserData(userId, first_name, last_name, email) {
 
 function signUp(){
 	console.log("signUp called");
-	first_name= document.getElementById('first-name').value;
-	last_name= document.getElementById('last-name').value;
-	email= document.getElementById('Email').value;
+	_name= document.getElementById('name').value;
+	//last_name= document.getElementById('last-name').value;
+	email= document.getElementById('email').value;
 	password= document.getElementById('password').value;
 	popup = document.getElementById('popup');
 	
-	console.log(first_name);
-	console.log(last_name);
+	console.log(_name);
+	//console.log(last_name);
 	console.log(email);
-	console.log(password);
+	//console.log(password);
 	
 	
 	if(validateEmail(email) == false || validatePassword(password) ==false){
 		alert("Email or Password in wrong format");
-		//I'm here na, even though you might not be able to hug me, but I'm always with you;
+		
 		return;
 	}
 	
-	if(validateName(first_name) ==false || validateName(last_name)==false){
+	if(validateName(_name) ==false ){
 		alert("Name cannot be empty");
 		return;
 	}
@@ -101,7 +102,7 @@ function signUp(){
 	.then((userCredential) => { 
 		const user = userCredential.user;
 		console.log("auth done");
-		writeUserData(user.uid, first_name, last_name, email);
+		writeUserData(_name, email);
 	})
 	.catch((error) => {
 		const errorCode = error.code;
