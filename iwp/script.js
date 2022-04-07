@@ -1,109 +1,111 @@
-console.log("Welcome to Spotify");
+// const firebaseConfig = {
+// 	apiKey: "AIzaSyDjyl9cLRRLKOIc98tcwZeotQJPto79Ssw",
+// 	authDomain: "quizzo-e5530.firebaseapp.com",
+// 	databaseURL: "https://quizzo-e5530-default-rtdb.asia-southeast1.firebasedatabase.app/",
+// 	projectId: "quizzo-e5530",
+// 	storageBucket: "quizzo-e5530.appspot.com",
+// 	messagingSenderId: "45527319469",
+// 	appId: "1:45527319469:web:88e4fbd64cae415c3ad724"
+// };
 
-// Initialize the Variables
-let songIndex = 0;
-let audioElement = new Audio('songs/1.mp3');
-let masterPlay = document.getElementById('masterPlay');
-let myProgressBar = document.getElementById('myProgressBar');
-let gif = document.getElementById('gif');
-let masterSongName = document.getElementById('masterSongName');
-let songItems = Array.from(document.getElementsByClassName('songItem'));
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const form = document.querySelector('.form-container form');
+const inputs = document.querySelectorAll('.form-container input');
 
-let songs = [
-    {songName: "Warriyo - Mortals [NCS Release]", filePath: "songs/1.mp3", coverPath: "covers/1.jpg"},
-    {songName: "Cielo - Huma-Huma", filePath: "songs/2.mp3", coverPath: "covers/2.jpg"},
-    {songName: "DEAF KEV - Invincible [NCS Release]-320k", filePath: "songs/3.mp3", coverPath: "covers/3.jpg"},
-    {songName: "Different Heaven & EH!DE - My Heart [NCS Release]", filePath: "songs/4.mp3", coverPath: "covers/4.jpg"},
-    {songName: "Janji-Heroes-Tonight-feat-Johnning-NCS-Release", filePath: "songs/5.mp3", coverPath: "covers/5.jpg"},
-    {songName: "Rabba - Salam-e-Ishq", filePath: "songs/2.mp3", coverPath: "covers/6.jpg"},
-    {songName: "Sakhiyaan - Salam-e-Ishq", filePath: "songs/2.mp3", coverPath: "covers/7.jpg"},
-    {songName: "Bhula Dena - Salam-e-Ishq", filePath: "songs/2.mp3", coverPath: "covers/8.jpg"},
-    {songName: "Tumhari Kasam - Salam-e-Ishq", filePath: "songs/2.mp3", coverPath: "covers/9.jpg"},
-    {songName: "Na Jaana - Salam-e-Ishq", filePath: "songs/4.mp3", coverPath: "covers/10.jpg"},
-]
+form.addEventListener('submit', (e) => {
+	e.preventDefault();
+	inputs.forEach((input) => {
+		if (!input.value) {
+			input.parentElement.classList.add('error');
+		} else {
+			input.parentElement.classList.remove('error');
+			if (input.type == 'email') {
+				if (validateEmail(input.value)) {
+					input.parentElement.classList.remove('error');
+				} else {
+					input.parentElement.classList.add('error');
+				}
+			}
+		}
+	});
+	signUp();
+});
 
-songItems.forEach((element, i)=>{ 
-    element.getElementsByTagName("img")[0].src = songs[i].coverPath; 
-    element.getElementsByClassName("songName")[0].innerText = songs[i].songName; 
-})
- 
-
-// Handle play/pause click
-masterPlay.addEventListener('click', ()=>{
-    if(audioElement.paused || audioElement.currentTime<=0){
-        audioElement.play();
-        masterPlay.classList.remove('fa-play-circle');
-        masterPlay.classList.add('fa-pause-circle');
-        gif.style.opacity = 1;
-    }
-    else{
-        audioElement.pause();
-        masterPlay.classList.remove('fa-pause-circle');
-        masterPlay.classList.add('fa-play-circle');
-        gif.style.opacity = 0;
-    }
-})
-// Listen to Events
-audioElement.addEventListener('timeupdate', ()=>{ 
-    // Update Seekbar
-    progress = parseInt((audioElement.currentTime/audioElement.duration)* 100); 
-    myProgressBar.value = progress;
-})
-
-myProgressBar.addEventListener('change', ()=>{
-    audioElement.currentTime = myProgressBar.value * audioElement.duration/100;
-})
-
-const makeAllPlays = ()=>{
-    Array.from(document.getElementsByClassName('songItemPlay')).forEach((element)=>{
-        element.classList.remove('fa-pause-circle');
-        element.classList.add('fa-play-circle');
-    })
+function validateEmail (email) {
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(String(email).toLowerCase());
+}
+function validatePassword(password){
+	if(password <6){
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+function validateName(name){
+	if(!name){
+		return false;
+	}
+	else{
+		return true;
+	}
 }
 
-Array.from(document.getElementsByClassName('songItemPlay')).forEach((element)=>{
-    element.addEventListener('click', (e)=>{ 
-        makeAllPlays();
-        songIndex = parseInt(e.target.id);
-        e.target.classList.remove('fa-play-circle');
-        e.target.classList.add('fa-pause-circle');
-        audioElement.src = `songs/${songIndex+1}.mp3`;
-        masterSongName.innerText = songs[songIndex].songName;
-        audioElement.currentTime = 0;
-        audioElement.play();
-        gif.style.opacity = 1;
-        masterPlay.classList.remove('fa-play-circle');
-        masterPlay.classList.add('fa-pause-circle');
-    })
-})
+function changeWindow(){
+	window.location.href ='../iwp/index.html';
+}
 
-document.getElementById('next').addEventListener('click', ()=>{
-    if(songIndex>=9){
-        songIndex = 0
-    }
-    else{
-        songIndex += 1;
-    }
-    audioElement.src = `songs/${songIndex+1}.mp3`;
-    masterSongName.innerText = songs[songIndex].songName;
-    audioElement.currentTime = 0;
-    audioElement.play();
-    masterPlay.classList.remove('fa-play-circle');
-    masterPlay.classList.add('fa-pause-circle');
+function writeUserData(userId, first_name, last_name, email) {
+	db.collection("Users").doc(userId).set({
+		first_name: first_name,
+		last_name: last_name,
+		email: email
+	}).then(() => {
+		console.log("data written");
+		setTimeout(function(){
+			popup.classList.toggle("popupShow");
+		}, 800);
+	})
+}
 
-})
-
-document.getElementById('previous').addEventListener('click', ()=>{
-    if(songIndex<=0){
-        songIndex = 0
-    }
-    else{
-        songIndex -= 1;
-    }
-    audioElement.src = `songs/${songIndex+1}.mp3`;
-    masterSongName.innerText = songs[songIndex].songName;
-    audioElement.currentTime = 0;
-    audioElement.play();
-    masterPlay.classList.remove('fa-play-circle');
-    masterPlay.classList.add('fa-pause-circle');
-})
+function signUp(){
+	console.log("signUp called");
+	first_name= document.getElementById('first-name').value;
+	last_name= document.getElementById('last-name').value;
+	email= document.getElementById('Email').value;
+	password= document.getElementById('password').value;
+	popup = document.getElementById('popup');
+	
+	console.log(first_name);
+	console.log(last_name);
+	console.log(email);
+	console.log(password);
+	
+	
+	if(validateEmail(email) == false || validatePassword(password) ==false){
+		alert("Email or Password in wrong format");
+		//I'm here na, even though you might not be able to hug me, but I'm always with you;
+		return;
+	}
+	
+	if(validateName(first_name) ==false || validateName(last_name)==false){
+		alert("Name cannot be empty");
+		return;
+	}
+	
+	firebase.auth().createUserWithEmailAndPassword(email, password)
+	.then((userCredential) => { 
+		const user = userCredential.user;
+		console.log("auth done");
+		writeUserData(user.uid, first_name, last_name, email);
+	})
+	.catch((error) => {
+		const errorCode = error.code;
+    const errorMessage = error.message;
+	console.log(errorCode);
+	alert(errorMessage);
+  });
+}
